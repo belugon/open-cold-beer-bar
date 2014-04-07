@@ -2,6 +2,8 @@ int led_state[14];
 int delta[14];
 int run_state;
 
+//TODO: utilize front LEDs and make it cool
+
 void setup() {
   // put your setup code here, to run once:
 }
@@ -42,6 +44,8 @@ int convert_intensity(int input)
 
 void loop() {
   // put your main code here, to run repeatedly:
+
+  //TODO: move init code to separate function
   led_state[4] = 0;
   for (int i = 5; i < 14; i++)
   {
@@ -54,6 +58,11 @@ void loop() {
   }
   analogWrite(2, 255);
   analogWrite(3, 255);
+
+  //TODO: remove/replace counter here with state change
+  //TODO: use one loop to update all controllable LEDs
+  //TODO: find optimal delay for main loop
+  //main loop should not worry about states
 
   for(int i=0; i<228; i++)
   {
