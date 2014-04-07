@@ -30,6 +30,7 @@ PROGRAMS:
 --------------------------------------------------------------------------------------
 
 1. //make the front LEDs glow
+
 if (state1 == 0)
 {
 bright1 = bright1 + 1;
@@ -60,7 +61,7 @@ analogWrite(front_odd_LED,bright2);
 
 2. // make the top LEDs glow
 
-nt led_state[14];
+int led_state[14];
 int delta[14];
 int run_state;
 
