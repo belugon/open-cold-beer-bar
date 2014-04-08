@@ -1,16 +1,38 @@
-int led_state[14];
-int delta[14];
-int run_state;
+short led_state[14];
+short delta[14];
+short run_state;
 
-//TODO: utilize front LEDs and make it cool
 
 void setup() {
   // put your setup code here, to run once:
+  for (short i = 0; i < 14; i++)
+  {
+    led_state[i] = 0;
+  }
+  for (short i = 0; i < 14; i++)
+  {
+    delta[i] = 0;
+  }
 }
 
+short get_next_front(short id)
+{
+  return 0;
+}
 
+short get_next(short id)
+{
+  if (id > 3)
+  {
+    return get_next_flow(id);
+  }
+  else
+  {
+    return get_next_front(id);
+  }
+}
 
-int get_next(int id)
+short get_next_flow(short id)
 {
   led_state[id] = led_state[id] + delta[id];
   if (led_state[id] > 64)
@@ -18,10 +40,14 @@ int get_next(int id)
     led_state[id] = 64;
     delta[id] = -1;
   }
+  if (led_state[13] < 0 && delta[13] < 0)
+  {
+    run_state = 0;
+  }
   return led_state[id];
 }
 
-int convert_intensity(int input)
+short convert_intensity(short input)
 {
   //range from 0 to 64
   if (input < 0)
@@ -41,32 +67,30 @@ int convert_intensity(int input)
   return 64 + ((input-48) << 3);
 }
 
-
-void loop() {
-  // put your main code here, to run repeatedly:
-
-  //TODO: move init code to separate function
+void init_flow()
+{
   led_state[4] = 0;
-  for (int i = 5; i < 14; i++)
+  for (short i = 5; i < 14; i++)
   {
     led_state[i] = led_state[i-1] -10;
   }
-  
-  for (int i = 4; i < 14; i++)
+  for (short i = 4; i < 14; i++)
   {
     delta[i] = 1;
   }
-  analogWrite(2, 255);
-  analogWrite(3, 255);
+  run_state = 1;
+}
 
-  //TODO: remove/replace counter here with state change
-  //TODO: use one loop to update all controllable LEDs
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  init_flow();
+
   //TODO: find optimal delay for main loop
-  //main loop should not worry about states
 
-  for(int i=0; i<228; i++)
+  while(run_state)
   {
-    for (int j=4; j < 14; j++)
+    for (short j=0; j < 14; j++)
     {
       analogWrite(j,convert_intensity(get_next(j)));
     }
