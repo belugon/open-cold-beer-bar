@@ -1,7 +1,7 @@
 open-cold-beer-bar
 ==================
 
-the COLD BEER bar
+the COLD BEER bar --> Pinout = http://i.imgur.com/o5V38MF.jpg
 
 The bar is outfit with 2 programmable light strips in the front and 10 LED clusters on the top. 
 The integers that control these are:
