@@ -100,7 +100,7 @@ void init_flow()
   else if (front_state == 1)
   {
     front_state = 2;
-    led_state[2] = 255;
+    led_state[2] = 64;
     delta[2] = -1;
     led_state[3] = 0;
     delta[3] = 0;
@@ -118,7 +118,7 @@ void init_flow()
     front_state = 0;
     led_state[2] = 0;
     delta[2] = 0;
-    led_state[3] = 255;
+    led_state[3] = 64;
     delta[3] = -1;
   }
 }
