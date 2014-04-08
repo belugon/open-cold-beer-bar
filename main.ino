@@ -1,6 +1,8 @@
 short led_state[14];
 short delta[14];
 short run_state;
+short cycle_count;
+short front_state;
 
 
 void setup() {
@@ -17,7 +19,13 @@ void setup() {
 
 short get_next_front(short id)
 {
-  return 0;
+  led_state[id] = led_state[id] + delta[id];
+  if (led_state[id] > 64)
+  {
+    led_state[id] = 64;
+    delta[id] = 0;
+  }
+  return led_state[id];
 }
 
 short get_next(short id)
@@ -79,6 +87,40 @@ void init_flow()
     delta[i] = 1;
   }
   run_state = 1;
+  cycle_count = 0;
+  
+  if (front_state == 0)
+  {
+    front_state = 1;
+    led_state[2] = 0;
+    delta[2] = 1;
+    led_state[3] = 0;
+    delta[3] = 0;
+  }
+  else if (front_state == 1)
+  {
+    front_state = 2;
+    led_state[2] = 255;
+    delta[2] = -1;
+    led_state[3] = 0;
+    delta[3] = 0;
+  }
+  else if (front_state == 2)
+  {
+    front_state = 3;
+    led_state[2] = 0;
+    delta[2] = 0;
+    led_state[3] = 0;
+    delta[3] = 1;
+  }
+  else if (front_state == 3)
+  {
+    front_state = 0;
+    led_state[2] = 0;
+    delta[2] = 0;
+    led_state[3] = 255;
+    delta[3] = -1;
+  }
 }
 
 
@@ -90,6 +132,7 @@ void loop() {
 
   while(run_state)
   {
+    cycle_count++;
     for (short j=0; j < 14; j++)
     {
       analogWrite(j,convert_intensity(get_next(j)));
